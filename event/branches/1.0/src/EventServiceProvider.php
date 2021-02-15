@@ -9,7 +9,7 @@ use Pollen\Container\BaseServiceProvider;
 class EventServiceProvider extends BaseServiceProvider
 {
     protected $provides = [
-        EventManagerInterface::class
+        EventDispatcherInterface::class
     ];
 
     /**
@@ -17,8 +17,8 @@ class EventServiceProvider extends BaseServiceProvider
      */
     public function register(): void
     {
-        $this->getContainer()->share(EventManagerInterface::class, function () {
-            return new EventManager([], $this->getContainer());
+        $this->getContainer()->share(EventDispatcherInterface::class, function () {
+            return new EventDispatcher([], $this->getContainer());
         });
     }
 }
