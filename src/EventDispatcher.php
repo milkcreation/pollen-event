@@ -59,7 +59,8 @@ class EventDispatcher implements EventDispatcherInterface
         } catch (Throwable $e) {
             throw new BadMethodCallException(
                 sprintf(
-                    'Delegate Dispatcher method call [%s] throws an exception: %s',
+                    'Delegate [%s] method call [%s] throws an exception: %s',
+                    BaseEventDispatcher::class,
                     $method,
                     $e->getMessage()
                 )
