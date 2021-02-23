@@ -71,13 +71,14 @@ class EventDispatcher implements EventDispatcherInterface
     /**
      * Récupération d'une instance d'observateur d'un événement de déclenchement.
      *
-     * @param string|callable $listener
+     * @param string|callable|TriggeredListenerInterface $listener
      *
      * @return callable
      */
     protected function getTriggeredListener($listener): callable
     {
-        $triggeredListener = new TriggeredListener($listener);
+        $triggeredListener = $listener instanceof TriggeredListenerInterface
+             ? $listener : new TriggeredListener($listener);
 
         if ($container = $this->getContainer()) {
             $triggeredListener->setContainer($container);

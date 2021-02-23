@@ -6,5 +6,5 @@ namespace Pollen\Event;
 
 interface TriggeredListenerInterface
 {
-
+    public function __invoke(TriggeredEvent $event): void;
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Pollen\Event;
 
-use Closure;
 use Pollen\Support\Concerns\ContainerAwareTrait;
 use RuntimeException;
 
@@ -18,8 +17,6 @@ class TriggeredListener implements TriggeredListenerInterface
     protected $callable;
 
     /**
-     * TriggeredListener constructor.
-     *
      * @param string|callable $callable
      */
     public function __construct($callable)
@@ -27,15 +24,15 @@ class TriggeredListener implements TriggeredListenerInterface
         $this->callable = $callable;
     }
 
-    public function __invoke(TriggeredEvent $event)
+    public function __invoke(TriggeredEvent $event): void
     {
         $callable = $this->resolveCallable();
         $args = $event->eventArgs();
 
-        return $callable($event, ...$args);
+        $callable($event, ...$args);
     }
 
-    public function resolveCallable(): ?callable
+    protected function resolveCallable(): ?callable
     {
         $callable = $this->callable;
 
