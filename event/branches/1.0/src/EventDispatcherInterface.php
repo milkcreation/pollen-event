@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pollen\Event;
 
+use Exception;
+
 interface EventDispatcherInterface
 {
     /**
@@ -13,6 +15,8 @@ interface EventDispatcherInterface
      * @param array $arguments
      *
      * @return mixed
+     *
+     * @throws Exception
      */
     public function __call(string $method, array $arguments);
 
