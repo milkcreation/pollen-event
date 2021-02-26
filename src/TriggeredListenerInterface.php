@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Pollen\Event;
 
-interface TriggeredListenerInterface
+use Pollen\Support\Proxy\ContainerProxyInterface;
+
+interface TriggeredListenerInterface extends ContainerProxyInterface
 {
     public function __invoke(TriggeredEvent $event): void;
 }

@@ -9,8 +9,8 @@ use Exception;
 use League\Event\EventDispatcher as BaseEventDispatcher;
 use League\Event\PrioritizedListenerRegistry;
 use Pollen\Support\Concerns\ConfigBagAwareTrait;
-use Pollen\Support\Concerns\ContainerAwareTrait;
 use Pollen\Support\Concerns\ParamsBagAwareTrait;
+use Pollen\Support\Proxy\ContainerProxy;
 use Psr\Container\ContainerInterface as Container;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use RuntimeException;
@@ -22,7 +22,7 @@ use Throwable;
 class EventDispatcher implements EventDispatcherInterface
 {
     use ConfigBagAwareTrait;
-    use ContainerAwareTrait;
+    use ContainerProxy;
     use ParamsBagAwareTrait;
 
     /**
@@ -75,7 +75,14 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * @inheritDoc
+     * Appel des méthodes du répartiteur d'événement délégué.
+     *
+     * @param string $method
+     * @param array $arguments
+     *
+     * @return mixed
+     *
+     * @throws Exception
      */
     public function __call(string $method, array $arguments)
     {
@@ -90,7 +97,7 @@ class EventDispatcher implements EventDispatcherInterface
                     BaseEventDispatcher::class,
                     $method,
                     $e->getMessage()
-                )
+                ), 0, $e
             );
         }
     }
