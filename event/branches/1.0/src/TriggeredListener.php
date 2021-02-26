@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Pollen\Event;
 
-use Pollen\Support\Concerns\ContainerAwareTrait;
+use Pollen\Support\Proxy\ContainerProxy;
 use RuntimeException;
 
 class TriggeredListener implements TriggeredListenerInterface
 {
-    use ContainerAwareTrait;
+    use ContainerProxy;
 
     /**
      * @var string|callable

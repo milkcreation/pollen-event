@@ -4,22 +4,15 @@ declare(strict_types=1);
 
 namespace Pollen\Event;
 
-use Exception;
+use Pollen\Support\Concerns\ConfigBagAwareTraitInterface;
+use Pollen\Support\Concerns\ParamsBagAwareTraitInterface;
+use Pollen\Support\Proxy\ContainerProxyInterface;
 
-interface EventDispatcherInterface
+interface EventDispatcherInterface extends
+    ContainerProxyInterface,
+    ConfigBagAwareTraitInterface,
+    ParamsBagAwareTraitInterface
 {
-    /**
-     * Appel des méthodes du répartiteur d'événement délégué.
-     *
-     * @param string $method
-     * @param array $arguments
-     *
-     * @return mixed
-     *
-     * @throws Exception
-     */
-    public function __call(string $method, array $arguments);
-
     /**
      * Déclaration d'un observateur d'événement de déclenchement.
      *
