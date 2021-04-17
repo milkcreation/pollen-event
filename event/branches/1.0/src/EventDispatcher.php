@@ -10,10 +10,10 @@ use League\Event\EventDispatcher as BaseEventDispatcher;
 use League\Event\PrioritizedListenerRegistry;
 use Pollen\Support\Concerns\ConfigBagAwareTrait;
 use Pollen\Support\Concerns\ParamsBagAwareTrait;
+use Pollen\Support\Exception\ManagerRuntimeException;
 use Pollen\Support\Proxy\ContainerProxy;
 use Psr\Container\ContainerInterface as Container;
 use Psr\EventDispatcher\ListenerProviderInterface;
-use RuntimeException;
 use Throwable;
 
 /**
@@ -71,7 +71,7 @@ class EventDispatcher implements EventDispatcherInterface
         if (self::$instance instanceof self) {
             return self::$instance;
         }
-        throw new RuntimeException(sprintf('Unavailable [%s] instance', __CLASS__));
+        throw new ManagerRuntimeException(sprintf('Unavailable [%s] instance', __CLASS__));
     }
 
     /**
