@@ -7,21 +7,21 @@ use League\Event\HasEventName;
 interface TriggeredEventInterface extends HasEventName
 {
     /**
-     * Récupération du nom de qualification de l'événement.
+     * Get the triggered event name.
      *
      * @return string
      */
     public function eventName(): string;
 
     /**
-     * Récupération de la liste des arguments associés à l'événement.
+     * Get list of arguments passed to the associated listeners.
      *
      * @return array
      */
     public function eventArgs(): array;
 
     /**
-     * Définition de la liste des arguments associés à l'événement.
+     * Set list of arguments passed to the associated listeners.
      *
      * @param array $args
      *

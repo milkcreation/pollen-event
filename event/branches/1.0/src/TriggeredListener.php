@@ -12,6 +12,7 @@ class TriggeredListener implements TriggeredListenerInterface
     use ContainerProxy;
 
     /**
+     * Listener callback.
      * @var string|callable
      */
     protected $callable;
@@ -24,6 +25,9 @@ class TriggeredListener implements TriggeredListenerInterface
         $this->callable = $callable;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function __invoke(TriggeredEvent $event): void
     {
         $callable = $this->resolveCallable();
@@ -32,6 +36,11 @@ class TriggeredListener implements TriggeredListenerInterface
         $callable($event, ...$args);
     }
 
+    /**
+     * Resolve the callable.
+     *
+     * @return callable|null
+     */
     protected function resolveCallable(): ?callable
     {
         $callable = $this->callable;
@@ -45,35 +54,37 @@ class TriggeredListener implements TriggeredListenerInterface
         }
 
         if (is_array($callable) && isset($callable[0]) && is_string($callable[0])) {
-            $callable = [$this->resolveContainerCallable($callable[0]), $callable[1]];
+            $callable = [$this->resolveCallableInstance($callable[0]), $callable[1]];
         }
 
         if (is_string($callable)) {
-            $callable = $this->resolveContainerCallable($callable);
+            $callable = $this->resolveCallableInstance($callable);
         }
 
         if (!is_callable($callable)) {
             throw new RuntimeException('Could not resolve a callable Triggered Listener');
         }
+
         return $callable;
     }
 
     /**
-     * Récupération de la classe de rappel.
+     * Resolve a callable instance from the dependency injection container or by calling a new class instance.
      *
-     * @param string $class
+     * @param string $classname
      *
      * @return mixed
      */
-    protected function resolveContainerCallable(string $class): object
+    protected function resolveCallableInstance(string $classname): object
     {
-       if (($container = $this->getContainer()) && $container->has($class)) {
-            return $container->get($class);
-       }
-
-       if (class_exists($class)) {
-            return new $class();
+        if (($container = $this->getContainer()) && $container->has($classname)) {
+            return $container->get($classname);
         }
-        throw new RuntimeException('Triggered Listener Class unresolvable');
+
+        if (class_exists($classname)) {
+            return new $classname();
+        }
+
+        throw new RuntimeException(sprintf('Triggered listener class [%s] could not be resolved.', $classname));
     }
 }
