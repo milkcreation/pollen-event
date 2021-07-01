@@ -14,7 +14,7 @@ composer require pollen-solutions/event
 
 ## Basic Usage
 
-### Simple Dispatching
+### Simple way of events dispatching
 
 ```php
 use Pollen\Event\EventDispatcher;
@@ -38,7 +38,7 @@ $dispatcher->trigger('event.demo');
 // >> (string) 'two' 
 ```
 
-### Prioritized Dispatching
+### Prioritize the event dispatching
 
 ```php
 use Pollen\Event\EventDispatcher;
@@ -62,7 +62,7 @@ $dispatcher->trigger('event.demo');
 // >> (string) 'one' 
 ```
 
-### Propagation Stopped Dispatching
+### Stoppable event propagation
 
 ```php
 use Pollen\Event\EventDispatcher;
@@ -87,7 +87,7 @@ $dispatcher->trigger('event.demo');
 // >> (string) 'one' 
 ```
 
-### Arguments Passed Dispatching
+### Passed arguments to event listeners
 
 ```php
 use Pollen\Event\EventDispatcher;
@@ -117,7 +117,7 @@ $dispatcher->trigger('event.demo', ['value1', 'value2']);
 // >> (string) 'newValue2'
 ```
 
-### One Time Dispatching
+### Once dispatch listener
 
 ```php
 use Pollen\Event\EventDispatcher;
@@ -146,71 +146,79 @@ $dispatcher->trigger('event.demo');
 // Second dispatch
 // >> (string) 'two'
 ```
-### Container Lazy Loading and Class
+
+### Dependencies injection container lazy loading and invokable class
 
 ```php
 namespace {
 use Pollen\Container\Container;
 use Pollen\Event\EventDispatcher;
 
-    // Container Declaration 
-    $container = new Container();
+// Container Declaration 
+$container = new Container();
 
-    class ServiceDemoNamedClass
+class ServiceDemoNamedClass
+{
+    public function __invoke($e, $v)
     {
-        public function __invoke($e, $v)
-        {
-            var_dump('one >> '. $v);
-        }
+        var_dump('one >> '. $v);
     }
-    $container->add(
-        'container.service1',
-        ServiceDemoNamedClass::class
-    );
+}
+$container->add(
+    'container.service1',
+    ServiceDemoNamedClass::class
+);
 
-    class ServiceDemoClosuredClass
+class ServiceDemoClosuredClass
+{
+    public function __invoke($e, $v)
     {
-        public function __invoke($e, $v)
-        {
-            var_dump('two >> '. $v);
-        }
+        var_dump('two >> '. $v);
     }
-    $container->add(
-        'container.service2',
-        function () {
-           return new ServiceDemoClosuredClass();
-        }
-    );
+}
+$container->add(
+    'container.service2',
+    function () {
+       return new ServiceDemoClosuredClass();
+    }
+);
 
-    // Class Declaration
-    class InvokableDemoClass
+// Class Declaration
+class InvokableDemoClass
+{
+    public function __invoke($e, $v)
     {
-        public function __invoke($e, $v)
-        {
-            var_dump('three >> '. $v);
-        }
+        var_dump('three >> '. $v);
     }
+}
 
-    class InstantiableDemoClass
+class InstantiableDemoClass
+{
+    public function __invoke($e, $v)
     {
-        public function __invoke($e, $v)
-        {
-            var_dump('four >> '. $v);
-        }
+        var_dump('four >> '. $v);
     }
+}
 
-    // Create Dispatcher
-    $dispatcher = new EventDispatcher([], $container);
+// Create Dispatcher
+$dispatcher = new EventDispatcher([], $container);
 
-    // Subscribe events
-    // Good practice
-    $dispatcher->on('event.demo', 'container.service1');
-    $dispatcher->on('event.demo', 'container.service2');
-    $dispatcher->on('event.demo', InvokableDemoClass::class);
-    // Increased memory usage practice
-    $dispatcher->on('event.demo', new InstantiableDemoClass());
+// Subscribe events
+// Good practice
+$dispatcher->on('event.demo', 'container.service1');
+$dispatcher->on('event.demo', 'container.service2');
+$dispatcher->on('event.demo', InvokableDemoClass::class);
+// Increased memory usage practice
+$dispatcher->on('event.demo', new InstantiableDemoClass());
 
-    // Dispatch events
-    $dispatcher->trigger('event.demo', ['value']);
+// Dispatch events
+$dispatcher->trigger('event.demo', ['value']);
 }
 ```
+
+## Advanced usage
+
+@todo
+
+### Event subscriber
+

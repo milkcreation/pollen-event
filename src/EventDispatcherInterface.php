@@ -14,7 +14,7 @@ interface EventDispatcherInterface extends
     ParamsBagAwareTraitInterface
 {
     /**
-     * Déclaration d'un observateur d'événement de déclenchement.
+     * Register a listener for a triggered event.
      *
      * @param string $name
      * @param string|callable $listener
@@ -25,7 +25,8 @@ interface EventDispatcherInterface extends
     public function on(string $name, $listener, int $priority = 0): void;
 
     /**
-     * Déclaration d'un observateur unique d'événement de déclenchement.
+     * Register an unique listener for a triggered event.
+     * {@internal This listener will only be called once.}
      *
      * @param string $name
      * @param string|callable $listener
@@ -36,7 +37,7 @@ interface EventDispatcherInterface extends
     public function one(string $name, $listener, int $priority = 0): void;
 
     /**
-     * Exécution des traitements et comportements associés à l'événement de déclenchement.
+     * Dispatch all listeners attached to this triggered event.
      *
      * @param string $event
      * @param array $args

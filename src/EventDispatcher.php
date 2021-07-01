@@ -26,15 +26,16 @@ class EventDispatcher implements EventDispatcherInterface
     use ParamsBagAwareTrait;
 
     /**
-     * Instance principale.
+     * Event dispatcher main instance.
      * @var static|null
      */
-    private static $instance;
+    private static ?EventDispatcherInterface $instance = null;
 
     /**
-     * @var BaseEventDispatcher
+     * Delegate event dispatcher.
+     * @var BaseEventDispatcher|null
      */
-    protected $delegateDispatcher;
+    protected BaseEventDispatcher $delegateDispatcher;
 
     /**
      * @var ListenerProviderInterface
@@ -62,7 +63,7 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * Récupération de l'instance principale.
+     * Get Event Dispatcher main instance.
      *
      * @return static
      */
@@ -75,7 +76,7 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * Appel des méthodes du répartiteur d'événement délégué.
+     * Delegate dispatcher method call.
      *
      * @param string $method
      * @param array $arguments
@@ -103,13 +104,13 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * Récupération d'une instance d'observateur d'un événement de déclenchement.
+     * Get triggered event listener instance.
      *
      * @param string|callable|TriggeredListenerInterface $listener
      *
-     * @return callable
+     * @return TriggeredListenerInterface
      */
-    protected function getTriggeredListener($listener): callable
+    protected function getTriggeredListener($listener): TriggeredListenerInterface
     {
         $triggeredListener = $listener instanceof TriggeredListenerInterface
              ? $listener : new TriggeredListener($listener);
@@ -126,9 +127,9 @@ class EventDispatcher implements EventDispatcherInterface
      */
     public function on(string $name, $listener, int $priority = 0): void
     {
-        $listener = $this->getTriggeredListener($listener);
+        $triggeredListener = $this->getTriggeredListener($listener);
 
-        $this->subscribeTo($name, $listener, $priority);
+        $this->subscribeTo($name, $triggeredListener, $priority);
     }
 
     /**
@@ -136,9 +137,9 @@ class EventDispatcher implements EventDispatcherInterface
      */
     public function one(string $name, $listener, int $priority = 0): void
     {
-        $listener = $this->getTriggeredListener($listener);
+        $triggeredListener = $this->getTriggeredListener($listener);
 
-        $this->subscribeOnceTo($name, $listener, $priority);
+        $this->subscribeOnceTo($name, $triggeredListener, $priority);
     }
 
     /**

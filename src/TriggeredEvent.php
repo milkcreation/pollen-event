@@ -7,22 +7,21 @@ namespace Pollen\Event;
 class TriggeredEvent extends StoppableEvent implements TriggeredEventInterface
 {
     /**
+     * Event name.
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
+     * List of arguments passed to the associated listeners.
      * @var array
      */
-    protected $args;
+    protected array $args = [];
 
     /**
-     * EventTriggered constructor.
-     *
      * @param string $name
      * @param array $args
      */
-
     public function __construct(string $name, array $args = [])
     {
         $this->name = $name;

@@ -9,7 +9,7 @@ use Psr\EventDispatcher\StoppableEventInterface as BaseStoppableEventInterface;
 interface StoppableEventInterface extends BaseStoppableEventInterface
 {
     /**
-     * Activation de l'interruption de la propagation de l'événement.
+     * Triggers the stop of the propagation of the associated event.
      *
      * @return static
      */

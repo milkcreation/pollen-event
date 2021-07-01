@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Pollen\Event;
 
-use Pollen\Container\BootableServiceProvider;
+use Pollen\Container\ServiceProvider;
 
-class EventServiceProvider extends BootableServiceProvider
+class EventServiceProvider extends ServiceProvider
 {
     protected $provides = [
         EventDispatcherInterface::class

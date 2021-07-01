@@ -7,9 +7,10 @@ namespace Pollen\Event;
 class StoppableEvent implements StoppableEventInterface
 {
     /**
+     * Event stopped propagation indicator.
      * @var bool
      */
-    protected $stopPropagation = false;
+    protected bool $stopPropagation = false;
 
     /**
      * @inheritDoc
