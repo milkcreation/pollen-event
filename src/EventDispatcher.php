@@ -33,7 +33,7 @@ class EventDispatcher implements EventDispatcherInterface
 
     /**
      * Delegate event dispatcher.
-     * @var BaseEventDispatcher|null
+     * @var BaseEventDispatcher
      */
     protected BaseEventDispatcher $delegateDispatcher;
 
@@ -63,7 +63,7 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * Get Event Dispatcher main instance.
+     * Get event dispatcher main instance.
      *
      * @return static
      */
