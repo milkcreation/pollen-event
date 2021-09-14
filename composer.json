@@ -1,7 +1,7 @@
 {
   "name": "pollen-solutions/event",
   "description": "Pollen Solutions - Event Component - PSR-14 Event dispatcher.",
-  "homepage": "https://www.presstify.com/pollen-solutions/event/",
+  "homepage": "https://github.com/milkcreation/pollen-event.git",
   "keywords": [
     "pollen-solutions",
     "component",
@@ -9,7 +9,7 @@
     "dispatcher",
     "PSR-14"
   ],
-  "time": "2021-07-07",
+  "time": "2021-09-14",
   "license": "MIT",
   "authors": [
     {
